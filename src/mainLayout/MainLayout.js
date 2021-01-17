@@ -7,7 +7,7 @@ const { Content } = Layout;
 function MainLayout(props) {
   return (
     <Layout className="mainLayout">
-      <Layout className="site-layout">
+      <Layout className="site-layout" className="mainLayoutInner">
         <Content
           className="site-layout-background"
           style={{

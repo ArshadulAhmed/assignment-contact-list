@@ -2,6 +2,13 @@ import {
   LOAD_CONTACT_START,
   LOAD_CONTACT_SUCCESS,
   LOAD_CONTACT_FAIL,
+  DELETE_CONTACT_START,
+  DELETE_CONTACT_SUCCESS,
+  PREF_FAV_CONTACT_SUCCESS,
+  SEARCH_CONTACT_SUCCESS,
+  ADD_NEW_CONTACT_SUCCESS,
+  LOAD_NEW_CONTACT_SUCCESS,
+  LOAD_NEW_CONTACT_SUCCESS_DEC,
 } from "../utils/types";
 
 import mainDatas from "../../assets/data";
@@ -11,6 +18,10 @@ const initialState = {
   data: null,
   mainData: mainDatas,
 };
+
+function array_move(arr) {
+  return arr;
+}
 
 export default function (state = initialState, action) {
   const catchDataFromStorage = state.mainData;
@@ -49,6 +60,119 @@ export default function (state = initialState, action) {
         isLoading: false,
       };
 
+    case DELETE_CONTACT_START:
+      return {
+        ...state,
+        ...action.payload,
+        isLoading: true,
+      };
+
+    case DELETE_CONTACT_SUCCESS:
+      let itemsAfterRemovedFromMainArray = catchDataFromStorage.filter(
+        (item) => item.id !== action.payload
+      );
+      let findIndexMain =
+        itemsAfterRemovedFromMainArray[
+          itemsAfterRemovedFromMainArray.length - 1
+        ];
+      findIndexMain = itemsAfterRemovedFromMainArray.indexOf(findIndexMain);
+      return {
+        ...state,
+        data:
+          itemsAfterRemovedFromMainArray.length > 4
+            ? itemsAfterRemovedFromMainArray
+                .slice(findIndexMain - 3, findIndexMain + 1)
+                .reverse()
+            : itemsAfterRemovedFromMainArray,
+        mainData: [...itemsAfterRemovedFromMainArray],
+        isLoading: false,
+      };
+
+    case PREF_FAV_CONTACT_SUCCESS:
+      return {
+        ...state,
+        data: state.data.map((item) => {
+          if (item.id === action.payload) {
+            item.isFav = !item.isFav;
+            const index = state.mainData.indexOf(item);
+            state.mainData[index].isFav = item.isFav;
+            return item;
+          }
+          return item;
+        }),
+      };
+
+    case SEARCH_CONTACT_SUCCESS:
+      let searchedItem = [];
+      catchDataFromStorage.filter((item) => {
+        if (item.name.toLowerCase().includes(action.payload.toLowerCase())) {
+          searchedItem.push(item);
+          // return searchedItem;
+        }
+        return searchedItem;
+      });
+      return {
+        ...state,
+        data: searchedItem.length > 4 ? searchedItem.slice(0, 4) : searchedItem,
+
+        isLoading: false,
+      };
+
+    case ADD_NEW_CONTACT_SUCCESS:
+      const entryToMainArray = {
+        id:
+          catchDataFromStorage.length === 0
+            ? parseInt(0)
+            : parseInt(
+                catchDataFromStorage[catchDataFromStorage.length - 1].id + 1
+              ),
+        name: `${action.payload}`,
+        isFav: false,
+      };
+
+      var newMainArray = array_move([
+        ...catchDataFromStorage,
+        entryToMainArray,
+      ]);
+      return {
+        ...state,
+        mainData: [...catchDataFromStorage, entryToMainArray],
+        data:
+          newMainArray.length >= 4
+            ? newMainArray.slice(0, 4)
+            : newMainArray.slice(0, 4),
+      };
+
+    case LOAD_NEW_CONTACT_SUCCESS:
+      let lastContactListItemIndex = action.payload.id2;
+      let part2;
+
+      if (lastContactListItemIndex > 4) {
+        part2 = catchDataFromStorage
+          .slice(lastContactListItemIndex - 3, lastContactListItemIndex + 1)
+          .reverse();
+      } else {
+        part2 = catchDataFromStorage
+          .slice(0, lastContactListItemIndex + 1)
+          .reverse();
+      }
+      return {
+        ...state,
+        data: part2,
+        isLoading: false,
+      };
+
+    case LOAD_NEW_CONTACT_SUCCESS_DEC:
+      let catchDataFromStorageDec = catchDataFromStorage;
+      let part1Dec = catchDataFromStorageDec.slice(
+        action.payload.id1 - 5,
+        action.payload.id1
+      );
+      return {
+        ...state,
+        data: part1Dec.length >= 4 ? part1Dec.slice(0, 4) : part1Dec,
+        isLoading: false,
+      };
     default:
       return state;
   }

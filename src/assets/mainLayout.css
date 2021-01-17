@@ -1,7 +1,13 @@
 .mainLayout {
   height: 100vh;
 }
-
+.mainLayoutInner {
+  width: 70%;
+  margin: auto;
+}
+.anticon {
+  transition: all 0.3s;
+}
 .contact_individual {
   display: flex;
   border-bottom: 1px solid #ccc;
@@ -94,6 +100,7 @@ span.anticon.anticon-delete.deleteButton {
   color: #fff;
   font-weight: bold;
   border-color: red;
+  transition: all 0.3s;
 }
 span.anticon.anticon-star svg {
   color: green;
@@ -111,6 +118,8 @@ span.anticon.anticon-star svg {
   padding: 10px;
   border-radius: 5px;
   cursor: pointer;
+  transition: all 0.3s;
+  margin-right: 0px;
 }
 .ant-modal-mask {
   background-color: rgb(0 0 0 / 0.2) !important;
@@ -132,4 +141,20 @@ p.error {
   font-weight: 600;
   letter-spacing: 1px;
   padding-left: 15px;
+}
+.paginationInner span.anticon:hover {
+  background: #ccc;
+  transition: all 0.3s;
+}
+span.anticon.anticon-delete.deleteButton:hover {
+  background: #b04141;
+  border-color: #b04141;
+}
+
+.right_list .anticon:hover {
+  background: green;
+}
+
+.right_list .anticon:hover svg {
+  color: #fff;
 }
