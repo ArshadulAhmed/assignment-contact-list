@@ -63,6 +63,7 @@ function HomePage(props) {
     props.homePageItemsIndex.map((item, id) => {
       return (
         <div className="contact_individual" key={item.id}>
+          {console.log("homePageItemsIndex", item)}
           <div className="left_list">
             <p className="list_name">{item.name}</p>
             <p>is your friend</p>

@@ -43,7 +43,12 @@ export default function (state = initialState, action) {
         catchDataFromStorage[catchDataFromStorage.length - 1 - 3]
       );
       if (catchDataFromStorage.length > 4) {
-        iiii = catchDataFromStorage.slice(rangeInd, lastInd + 1).reverse();
+        iiii = catchDataFromStorage
+          .slice(rangeInd, lastInd + 1)
+          .reverse()
+          .sort(function (a, b) {
+            return b.isFav - a.isFav;
+          });
       } else {
         iiii = [...catchDataFromStorage];
       }
@@ -91,15 +96,19 @@ export default function (state = initialState, action) {
     case PREF_FAV_CONTACT_SUCCESS:
       return {
         ...state,
-        data: state.data.map((item) => {
-          if (item.id === action.payload) {
-            item.isFav = !item.isFav;
-            const index = state.mainData.indexOf(item);
-            state.mainData[index].isFav = item.isFav;
+        data: state.data
+          .map((item) => {
+            if (item.id === action.payload) {
+              item.isFav = !item.isFav;
+              const index = state.mainData.indexOf(item);
+              state.mainData[index].isFav = item.isFav;
+              return item;
+            }
             return item;
-          }
-          return item;
-        }),
+          })
+          .sort(function (a, b) {
+            return b.isFav - a.isFav;
+          }),
       };
 
     case SEARCH_CONTACT_SUCCESS:
@@ -109,11 +118,22 @@ export default function (state = initialState, action) {
           searchedItem.push(item);
           // return searchedItem;
         }
+
         return searchedItem;
       });
+
       return {
         ...state,
-        data: searchedItem.length > 4 ? searchedItem.slice(0, 4) : searchedItem,
+        // data: searchedItem.length > 4 ? searchedItem.slice(0, 4) : searchedItem,
+
+        data:
+          searchedItem.length > 4
+            ? searchedItem.slice(0, 4).sort(function (a, b) {
+                return b.isFav - a.isFav;
+              })
+            : searchedItem.sort(function (a, b) {
+                return b.isFav - a.isFav;
+              }),
 
         isLoading: false,
       };
@@ -139,8 +159,12 @@ export default function (state = initialState, action) {
         mainData: [...catchDataFromStorage, entryToMainArray],
         data:
           newMainArray.length >= 4
-            ? newMainArray.slice(0, 4)
-            : newMainArray.slice(0, 4),
+            ? newMainArray.slice(0, 4).sort(function (a, b) {
+                return b.isFav - a.isFav;
+              })
+            : newMainArray.slice(0, 4).sort(function (a, b) {
+                return b.isFav - a.isFav;
+              }),
       };
 
     case LOAD_NEW_CONTACT_SUCCESS:
@@ -158,7 +182,9 @@ export default function (state = initialState, action) {
       }
       return {
         ...state,
-        data: part2,
+        data: part2.sort(function (a, b) {
+          return b.isFav - a.isFav;
+        }),
         isLoading: false,
       };
 
@@ -170,7 +196,12 @@ export default function (state = initialState, action) {
       );
       return {
         ...state,
-        data: part1Dec.length >= 4 ? part1Dec.slice(0, 4) : part1Dec,
+        data:
+          part1Dec.length >= 4
+            ? part1Dec.slice(0, 4).sort(function (a, b) {
+                return b.isFav - a.isFav;
+              })
+            : part1Dec,
         isLoading: false,
       };
     default:

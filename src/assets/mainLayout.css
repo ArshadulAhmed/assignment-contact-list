@@ -9,11 +9,14 @@
   transition: all 0.3s;
 }
 .contact_individual {
-  display: flex;
-  border-bottom: 1px solid #ccc;
-  justify-content: space-between;
-  align-items: center;
-  padding: 10px 15px;
+    display: flex;
+    border: 1px solid #ccc;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 15px;
+    margin-top: 10px;
+    box-shadow: 0 3px 5px rgba(0,0,0,0.2);
+    border-radius: 6px;
 }
 .right_list {
   display: flex;
@@ -22,6 +25,7 @@
 .left_list p {
   margin: 0px;
   font-size: 14px;
+  text-transform: capitalize;
 }
 .list_name {
   font-size: 20px;
@@ -67,10 +71,10 @@
   margin-bottom: 0px !important;
 }
 .main {
-  border: 1px solid #ccc;
-  border-top: none;
+  /* border: 1px solid #ccc; */
+  /* border-top: none; */
   border-radius: 5px;
-  overflow: hidden;
+  /* overflow: hidden; */
 }
 .addListForm input {
   width: -webkit-fill-available;
@@ -92,7 +96,8 @@ input:focus {
   outline: none;
 }
 .contact_individual:last-child {
-  border-bottom: none;
+  /* border-bottom: none; */
+      box-shadow: 0 3px 5px rgba(0,0,0,0.2);
 }
 span.anticon.anticon-delete.deleteButton {
   background: red;
@@ -157,4 +162,26 @@ span.anticon.anticon-delete.deleteButton:hover {
 
 .right_list .anticon:hover svg {
   color: #fff;
+}
+
+@media (max-width: 768px) {
+  .mainLayoutInner {
+    width: 100%;
+    margin: 0px;
+    padding: 0px 15px;
+  }
+  .topBar p {
+    font-size: 0.8rem;
+  }
+  .searchForm input {
+    max-width: 6rem;
+    font-size: 0.7rem;
+  }
+  .ant-layout-content {
+    margin: 0px !important;
+    padding: 24px 0px !important;
+  }
+}
+.list_name{
+  font-size: 24px !important;
 }

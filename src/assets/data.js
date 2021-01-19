@@ -78,7 +78,7 @@ const data = [
   {
     id: 15,
     name: "Gourang 15",
-    isFav: false,
+    isFav: true,
   },
   {
     id: 16,
